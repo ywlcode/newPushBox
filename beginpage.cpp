@@ -331,10 +331,8 @@ void BeginPage::seeLeader()
     btn_back->disconnect();
     connect(btn_back, &QPushButton::clicked, [=]() {
         title->hide();
-        for (int i = 0; i < 5; i++) {
-            if (leaders[i] == NULL) 
-                break;
-            leaders[i]->hide();
+        for (int j = 0; j < i; j++) {
+            leaders[j]->hide();
         }
         begin_game->show();
         leaderboard->show();
