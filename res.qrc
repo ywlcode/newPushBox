@@ -1,0 +1,43 @@
+<RCC>
+    <qresource prefix="/">
+        <file>res/pic/1.png</file>
+        <file>res/pic/2.png</file>
+        <file>res/pic/3.png</file>
+        <file>res/pic/4.png</file>
+        <file>res/pic/background-1.png</file>
+        <file>res/pic/background-2.png</file>
+        <file>res/pic/background-3.png</file>
+        <file>res/pic/background-4.png</file>
+        <file>res/pic/pwd.png</file>
+        <file>res/pic/qq-hover.png</file>
+        <file>res/pic/qq.png</file>
+        <file>res/pic/user_name.png</file>
+        <file>res/pic/wb-hover.png</file>
+        <file>res/pic/wb.png</file>
+        <file>res/pic/wx-hover.png</file>
+        <file>res/pic/wx.png</file>
+        <file>res/qss/style-1.qss</file>
+        <file>res/qss/style-2.qss</file>
+        <file>res/qss/style-3.qss</file>
+        <file>res/qss/style-4.qss</file>
+        <file>res/pic/backin-1.png</file>
+        <file>res/pic/backin-2.png</file>
+        <file>res/pic/backin-3.png</file>
+        <file>res/pic/backin-4.png</file>
+        <file>res/pic/frame.png</file>
+        <file>res/pic/dot-1.png</file>
+        <file>res/pic/dot-2.png</file>
+        <file>res/pic/dot-3.png</file>
+        <file>res/pic/dot-4.png</file>
+        <file>res/pic/wall.png</file>
+        <file>res/pic/box.png</file>
+        <file>res/pic/back.png</file>
+        <file>res/pic/front.png</file>
+        <file>res/pic/left.png</file>
+        <file>res/pic/right.png</file>
+        <file>res/dio/back_music.wav</file>
+        <file>res/dio/defeat.wav</file>
+        <file>res/dio/move.wav</file>
+        <file>res/dio/win.wav</file>
+    </qresource>
+</RCC>
