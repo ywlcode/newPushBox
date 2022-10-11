@@ -5,10 +5,10 @@
 
 class LevelData : public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    explicit LevelData(int l, QObject* parent = nullptr);
-    int m[MAXN][MAXN];
+	explicit LevelData(int l, QObject* parent = nullptr);
+	int m[MAXN][MAXN];
 };
 
 #endif // LEVELDATA_H
