@@ -28,3 +28,7 @@ FORMS += ./PushBox.ui \
     ./gamepage.ui
 RESOURCES += res.qrc
 QMAKE_CXXFLAGS += /utf-8
+
+DISTFILES += \
+    logo.rc
+RC_FILE += logo.rc
