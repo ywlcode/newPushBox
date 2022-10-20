@@ -19,29 +19,21 @@ BeginPage::BeginPage(QWidget* parent) : QWidget(parent),
 ui(new Ui::BeginPage)
 {
 	ui->setupUi(this);
-	bool dbFile = !QFile::exists(QDir::currentPath() + "/test.db");
-	QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-	db.setDatabaseName(QString("test.db"));
-	//连接数据库
-	if (!db.open())
-	{
-		QMessageBox::information(this, "infor", "link failed");
-		qDebug() << "error open database because" << db.lastError().text();
-	}
-	if (dbFile)
-	{
-		QSqlQuery k1;
-		QString create_sql = "create table account(username varchar(63), password varchar(255),level int,l1 int, l2 int, l3 int, l4 int, l5 int, l6 int, l7 int, l8 int, l9 int, l10 int, l11 int, l12 int, l13 int, l14 int, l15 int, score int);";
-		k1.prepare(create_sql);
-		if (!k1.exec())
-		{
-			QMessageBox::information(this, "infor", "Error: Fail to create table.");
-		}
-		else
-		{
-			//QMessageBox::information(this, "infor", "Table created!");
-		}
-	}
+    //连接数据库
+    QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
+    db.setHostName("106.14.121.196");
+    db.setPort(3306);
+    db.setDatabaseName("pushbox");
+    db.setUserName("pushbox");
+    db.setPassword("ensafekEPRpKfXSZ");
+    if (!db.open()){
+        QMessageBox::information(this, "infor", "link failed");
+        qDebug()<<"error open database because" << db.lastError().text();
+    }
+    else
+    {
+        qDebug()<<"open database because OK";
+    }
 	ui->label_user_name->setScaledContents(true);    //图片自适应label大小
 	ui->label_pwd->setScaledContents(true);          //图片自适应label大小
 	ui->lineE_pwd->setEchoMode(QLineEdit::Password); //密码框设置为小黑点
