@@ -112,10 +112,10 @@ public:
 				flag = false;
 			wrong++;
 			qDebug() << "tt";
-			if (flag || wrong > 30)
+			if (flag || wrong > 20)
 				break;
 		}
-		if (wrong > 30)
+		if (wrong > 20)
 		{
 			for (int i = 2; i < N; i++)
 			{
