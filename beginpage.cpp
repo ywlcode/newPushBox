@@ -19,21 +19,21 @@ BeginPage::BeginPage(QWidget* parent) : QWidget(parent),
 ui(new Ui::BeginPage)
 {
 	ui->setupUi(this);
-    //连接数据库
-    QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("106.14.121.196");
-    db.setPort(3306);
-    db.setDatabaseName("pushbox");
-    db.setUserName("pushbox");
-    db.setPassword("ensafekEPRpKfXSZ");
-    if (!db.open()){
-        QMessageBox::information(this, "infor", "link failed");
-        qDebug()<<"error open database because" << db.lastError().text();
-    }
-    else
-    {
-        qDebug()<<"open database because OK";
-    }
+	//连接数据库
+	QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
+	db.setHostName("106.14.121.196");
+	db.setPort(3306);
+	db.setDatabaseName("pushbox");
+	db.setUserName("pushbox");
+	db.setPassword("ensafekEPRpKfXSZ");
+	if (!db.open()) {
+		QMessageBox::information(this, "infor", "link failed");
+		qDebug() << "error open database because" << db.lastError().text();
+	}
+	else
+	{
+		qDebug() << "open database because OK";
+	}
 	ui->label_user_name->setScaledContents(true);    //图片自适应label大小
 	ui->label_pwd->setScaledContents(true);          //图片自适应label大小
 	ui->lineE_pwd->setEchoMode(QLineEdit::Password); //密码框设置为小黑点
@@ -465,6 +465,7 @@ void BeginPage::beginGame(QString username, int num)
 	this->hide();
 }
 
+// 无尽模式 
 void BeginPage::infchallenge()
 {
 	g = new GamePage(username, -1, style, isSound, isCheckLose);

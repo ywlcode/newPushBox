@@ -1,6 +1,7 @@
 ﻿#include "leveldata.h"
 #include <vector>
 #include <queue>
+#include <QDebug>
 
 const int N = 15;
 const int Floor = 0;
@@ -16,6 +17,7 @@ public:
 	int m[N + 1][N + 1];
 	mapnode(int level) : level(level * 3)
 	{
+		int wrong = 0;
 		while (true)
 		{
 			memset(m, Floor, sizeof(m));
@@ -68,7 +70,6 @@ public:
 			{
 				GenBoxEnd();
 			}
-
 			int Wacnt = 0;
 			for (int i = 2; i <= N - 1; i++)
 			{
@@ -82,21 +83,77 @@ public:
 			{
 				GenWall();
 			}
-
 			int flag = true;
-			for (int i = 1; i <= N; i++)
+			for (int i = 2; i < N; i++)
 			{
-				for (int j = 1; j <= N; j++)
+				for (int j = 2; j < N; j++)
 				{
 					int xx = i, yy = j;
-					if (!Check2(xx, yy)) flag = false;
+					if (!Check2(xx, yy))
+					{
+						clear(xx, yy);
+					}
+				}
+			}
+			for (int i = 2; i < N; i++)
+			{
+				for (int j = 2; j < N; j++)
+				{
+					if (m[i][j] == Box || m[i][j] == End)
+					{
+						if (cntkk(i, j) >= 4)
+						{
+							clearall(i, j);
+						}
+					}
 				}
 			}
 			if (dfs(bbx, bby))
 				flag = false;
-			if (flag)
+			wrong++;
+			qDebug() << "tt";
+			if (flag || wrong > 30)
 				break;
 		}
+		if (wrong > 30)
+		{
+			for (int i = 2; i < N; i++)
+			{
+				for (int j = 2; j < N; j++)
+				{
+					if (m[i][j] == Box || m[i][j] == Begin || m[i][j] == End)
+					{
+						clearall(i, j);
+					}
+				}
+			}
+			for (int i = 2; i < N; i++)
+			{
+				for (int j = 2; j < N; j++)
+				{
+					if (m[i][j] == Wall)
+					{
+						if (rand() % 3 == 0) m[i][j] = Floor;
+					}
+				}
+			}
+		}
+		qDebug() << "OK";
+	}
+	int cntkk(int x, int y)
+	{
+		int sum = 0;
+		int dx[10] = { 0, 0, 0, 1, -1, 1, 1, -1, -1 };
+		int dy[10] = { 0, 1, -1, 0, 0, 1, -1, 1, -1 };
+		for (int i = 1; i <= 8; i++)
+		{
+			int xx = x + dx[i], yy = y + dy[i];
+			if (m[xx][yy] == Wall || m[xx][yy] == Box)
+			{
+				sum++;
+			}
+		}
+		return sum;
 	}
 	void GenWall()
 	{
@@ -134,9 +191,11 @@ public:
 	void GenBoxEnd()
 	{
 		srand((unsigned)time(0));
+		int randi = 0;
+		int randj = 0;
 		while (true) {
-			int randi = (rand() % N) + 1;
-			int randj = (rand() % N) + 1;
+			randi = (rand() % N) + 1;
+			randj = (rand() % N) + 1;
 			if (randi == N - 1 || randi == 2)
 				continue;
 			if (randj == N - 1 || randj == 2)
@@ -147,15 +206,23 @@ public:
 				break;
 			}
 		}
+		if (rand() % 10 == 1)
+		{
+			clear(randi, randj);
+		}
 		srand((unsigned)time(0));
 		while (true) {
-			int randi = (rand() % N) + 1;
-			int randj = (rand() % N) + 1;
+			randi = (rand() % N) + 1;
+			randj = (rand() % N) + 1;
 			if (m[randi][randj] == Floor && Check(randi, randj, End))
 			{
 				m[randi][randj] = End;
 				break;
 			}
+		}
+		if (rand() % 10 == 1)
+		{
+			clear(randi, randj);
 		}
 	}
 	bool Check(int x, int y, int t)
@@ -214,7 +281,13 @@ public:
 	{
 		bool flag = false;
 		int kk[N + 1][N + 1];
-		memset(kk, -1, sizeof(kk));
+		for (int i = 1; i <= N; i++)
+		{
+			for (int j = 1; j <= N; j++)
+			{
+				kk[i][j] = -1;
+			}
+		}
 		for (int i = 1; i <= N; i++)
 		{
 			for (int j = 1; j <= N; j++)
@@ -225,25 +298,29 @@ public:
 		}
 		std::queue<std::pair<int, int>> q;
 		q.push({ x, y });
+		kk[x][y] = 2;
 		while (q.size())
 		{
 			int xx = q.front().first, yy = q.front().second;
 			q.pop();
-			kk[xx][yy] = 2;
 			if (kk[xx + 1][yy] == -1 && m[xx + 1][yy] != Wall)
 			{
+				kk[xx + 1][yy] = 2;
 				q.push({ xx + 1,yy });
 			}
 			if (kk[xx - 1][yy] == -1 && m[xx - 1][yy] != Wall)
 			{
+				kk[xx - 1][yy] = 2;
 				q.push({ xx - 1,yy });
 			}
 			if (kk[xx][yy + 1] == -1 && m[xx][yy + 1] != Wall)
 			{
+				kk[xx][yy + 1] = 2;
 				q.push({ xx,yy + 1 });
 			}
 			if (kk[xx][yy - 1] == -1 && m[xx][yy - 1] != Wall)
 			{
+				kk[xx][yy - 1] = 2;
 				q.push({ xx,yy - 1 });
 			}
 		}
@@ -256,6 +333,50 @@ public:
 			}
 		}
 		return flag;
+	}
+	void clear(int x, int y)
+	{
+		int dx[10] = { 0, 0, 0, 1, -1, 1, 1, -1, -1 };
+		int dy[10] = { 0, 1, -1, 0, 0, 1, -1, 1, -1 };
+		for (int i = 1; i <= 4; i++)
+		{
+			int xx = x + dx[i], yy = y + dy[i];
+			if (xx == 1 || xx == N) continue;
+			if (yy == 1 || yy == N) continue;
+			if (m[xx][yy] == Wall)
+			{
+				m[xx][yy] = Floor;
+			}
+		}
+		if (m[x][y] == Box)
+		{
+			for (int i = 5; i <= 8; i++)
+			{
+				int xx = x + dx[i], yy = y + dy[i];
+				if (xx == 1 || xx == N) continue;
+				if (yy == 1 || yy == N) continue;
+				if (m[xx][yy] == Wall)
+				{
+					m[xx][yy] = Floor;
+				}
+			}
+		}
+	}
+	void clearall(int x, int y)
+	{
+		int dx[10] = { 0, 0, 0, 1, -1, 1, 1, -1, -1 };
+		int dy[10] = { 0, 1, -1, 0, 0, 1, -1, 1, -1 };
+
+		for (int i = 1; i <= 8; i++)
+		{
+			int xx = x + dx[i], yy = y + dy[i];
+			if (xx == 1 || xx == N) continue;
+			if (yy == 1 || yy == N) continue;
+			if (m[xx][yy] == Wall)
+			{
+				m[xx][yy] = Floor;
+			}
+		}
 	}
 };
 
